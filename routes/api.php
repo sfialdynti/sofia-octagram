@@ -1,9 +1,9 @@
 <?php
 
-use App\Http\Controllers\UserApiController;
-// use App\Http\Controllers\UserController;
+
+use App\Http\Controllers\ApiCategoryController;
+use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,17 +17,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('/login',[UserApiController::class, 'autentikasi']);
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-Route::get('/logout',[UserApiController::class, 'logout']);
-
-// Route::post('/logout', function (Request $request) {
-//     if (Auth::check()) {
-//         Auth::logout();
-//         return response()->json(['message' => 'Logged out successfully']);
-//     } else {
-//         return response()->json(['message' => 'You are not logged in'], 401);
-//     }
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
 // });
+
+Route::post('login', [AuthController::class, 'login']);
+
+Route::middleware('tokenAuth')->group(function () {
+    Route::post('logout', [AuthController::class, 'logout']);
+    Route::post('category/create', [ApiCategoryController::class, 'create']);
+    Route::get('category/get', [ApiCategoryController::class, 'get']);
+    Route::post('category/update/{id}', [ApiCategoryController::class, 'update']);
+    Route::get('category/delete/{id}', [ApiCategoryController::class, 'delete']);
+});

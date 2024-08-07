@@ -15,7 +15,7 @@
                 <div class="page-header float-right">
                     <div class="page-title">
                         <ol class="breadcrumb text-right">
-                            <li><a href="#">Dashboard</a></li>
+                            <li><a href="/index">Dashboard</a></li>
                             <li class="active">User</li>
                         </ol>
                     </div>
@@ -44,19 +44,19 @@
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <form action="/form-user" method="post">
+                                        <form action="/user/create" method="post">
                                             @csrf
                                             <div class="mb-3">
                                                 <label for="recipient-name" class="col-form-label">Name</label>
-                                                <input type="text" name="name" class="form-control" id="recipient-name">
+                                                <input type="text" name="name" class="form-control" id="recipient-name" required>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="email" class="col-form-label">Email</label>
-                                                <input type="email" name="email" class="form-control" id="email">
+                                                <input type="email" name="email" class="form-control" id="email" required>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="password" class="col-form-label">Password</label>
-                                                <input type="password" name="password" class="form-control" id="password">
+                                                <input type="password" name="password" class="form-control" id="password" required>
                                             </div>
                                             <div class="mb-3">
                                                 <input type="submit" value="Add" class="btn btn-success">
@@ -101,19 +101,19 @@
                                                             </button>
                                                         </div>
                                                         <div class="modal-body">
-                                                            <form action="/update/{{ $item->id }}" method="post">
+                                                            <form action="/user/update/{{ $item->id }}" method="post">
                                                                 @csrf
                                                                 <div class="mb-3">
                                                                     <label for="recipient-name" class="col-form-label">Name</label>
-                                                                    <input type="text" name="name" class="form-control" value="{{ $item->name }}" id="recipient-name">
+                                                                    <input type="text" name="name" class="form-control" value="{{ $item->name }}" id="recipient-name" required>
                                                                 </div>
                                                                 <div class="mb-3">
                                                                     <label for="email" class="col-form-label">Email</label>
-                                                                    <input type="email" name="email" class="form-control" value="{{ $item->email }}" id="email">
+                                                                    <input type="email" name="email" class="form-control" value="{{ $item->email }}" id="email" required>
                                                                 </div>
                                                                 <div class="mb-3">
                                                                     <label for="password" class="col-form-label">Password</label>
-                                                                    <input type="password" name="password" class="form-control" id="password">
+                                                                    <input type="password" name="password" class="form-control" id="password" required>
                                                                 </div>
                                                                 <div class="mb-3">
                                                                     <input type="submit" value="Edit" class="btn btn-primary">
@@ -123,9 +123,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            {{-- @foreach ($edit as $key =>  $item)
-                                            @endforeache --}}
-                                            <a href="/destroy/{{ $item->id }}" class="btn btn-danger">Delete</a>
+                                            <a href="/user/delete/{{ $item->id }}" class="btn btn-danger" onclick="return window.confirm('Yakin hapus user ini?')" class="btn btn-danger">Delete</a>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -136,8 +134,8 @@
             </div>
 
         </div>
-    </div><!-- .animated -->
-</div><!-- .content -->
+    </div>
+</div>
 
 
 <div class="clearfix"></div>
@@ -146,10 +144,7 @@
     <div class="footer-inner bg-white">
         <div class="row">
             <div class="col-sm-6">
-                Copyright &copy; 2018 Ela Admin
-            </div>
-            <div class="col-sm-6 text-right">
-                Designed by <a href="https://colorlib.com">Colorlib</a>
+                @ Sofia-Octagram
             </div>
         </div>
     </div>

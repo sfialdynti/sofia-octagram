@@ -2,86 +2,81 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
 class UserController extends Controller
 {
-    public function login(){
-        return view('template.page-login');
-    }
-    public function autentikasi(Request $request){
-        $validasi = $request->validate([
-            'email' => ['email','required'],
-            'password' => ['required']
-        ]);
-
-        if (Auth::attempt($validasi)) {
-            return redirect('/index');
-        }
-        return redirect()->back();
-    }
-
-    public function logout(){
-        Auth::logout();
-        return redirect('/');
-    }
-
     public function user(){
         return view('template.user-table');
     }
 
-    public function add(){
-        return view('template.form-user');
+    public function show(){
+        $data['user'] = User::orderby('name', 'asc')->get();
+        
+        return view( 'template.user-table', $data);
     }
-    
-    public function create(Request $request)
-    {
-        $validasi = User::create([
+
+    public function create(Request $request){
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required',
+            'password' => 'required'
+        ]);
+
+        $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => bcrypt($request->password)
         ]);
-        if ($validasi) {
-            Session::flash('pesan','Data Berhasil Di Tambahkan');
-        }else {
-            Session::flash('pesan','Data Gagal Di Tambahkan');
-        }
-        return redirect('/user');
-    }
 
-    public function show_user(){
-        $data['user'] = User::all();
-        $data['count'] = $data['user']->count();
-        return view('template.user-table',$data);
-    }
-
-    public function edit(Request $request)
-    {
-        $data['edit'] = User::find($request->id);
-        return view('/user',$data);
-    }
-
-    public function update(Request $request)
-    {
-        $user = User::where('id', $request->id)->update([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => bcrypt($request->password)
-        ]);
         if ($user) {
-            Session::flash('pesan','Data Berhasil Di Ubah');
+            Session::flash('pesan','Data berhasil ditambahkan');
         }else {
-            Session::flash('pesan','Data Gagal Di Ubah');
+            Session::flash('pesan','Data gagal ditambahkan');
         }
+
         return redirect('/user');
     }
-    public function delete(Request $request)
-    {
-        User::where('id',$request->id)->delete();
+
+    public function edit(Request $request){
+        $data['user'] = User::find($request->id);
+
+        return view ('/user', $data);
+    }
+
+    public function update(Request $request){
+
+        $update = User::where('id', $request->id)->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => $request->password ? bcrypt($request->password) : DB::raw('password')
+        ]);
+
+        if ($update) {
+            Session::flash('pesan','Data berhasil diedit');
+        }else {
+            Session::flash('pesan','Data gagal diedit');
+        }
+
+
         return redirect('/user');
     }
+
+    public function delete(Request $request){
+        $user = User::find($request->id);
+        $delete = User::where('id', $request->id)->delete();
+
+        if ($delete) {
+            Session::flash('pesan', 'Data berhasil dihapus');
+        }else {
+            Session::flash('pesan', 'Data gagal dihapus');
+        }
+        
+        return redirect('/user');
+    }
+
+
 }

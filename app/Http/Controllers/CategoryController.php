@@ -14,70 +14,62 @@ class CategoryController extends Controller
         return view('template.index');
     }
 
-    public function category(){
-        $data['categori'] = category::all();
-        $data['count'] = $data['categori']->count();
+    public function show(){
+        $data['category'] = Category::orderby('name', 'asc')->get();
+        $data['count'] = $data['category']->count();
         return view('template.category-table',$data);
     }
     
     public function create(Request $request)
     {
+        $request->validate([
+            'name' => 'required',
+            'is_publish' => ['required', 'boolean']
+        ]);
+
         $validasi = Category::create([
             'name' => $request->name,
             'is_publish' => $request->is_publish,
         ]);
+
         if ($validasi) {
-            Session::flash('pesan','Data Berhasil Di Tambahkan');
+            Session::flash('pesan','Data berhasil ditambahkan');
         }else {
-            Session::flash('pesan','Data Gagal Di Tambahkan');
+            Session::flash('pesan','Data gagal ditambahkan');
         }
         return redirect('/category');
     }
 
-    // public function search(Request $request)
-    // {
-    //     $data['categori'] = Category::where('name','LIKE','%'.$request->cari.'%')->get();
-    //     $data['count'] = $data['categori']->count();
-    //     return redirect('/category',$data);
-    // }
-
-    // public function search(Request $request){
-    //     $search = $request->input('search');
-    //     $query = Category::query();
-
-    //     if ($search) {
-    //         $query->where('name', 'LIKE', '%'.$search.'%')->orWhere('is_publish', 'LIKE', '%'.$search.'%');
-    //     }
-
-    //     $data['categori'] = $query->paginate(10)->appends(['search' => $search]);
-
-    //     return redirect('/category');
-    // }
-
     public function edit(Request $request)
     {
-        $data['edit'] = Category::find($request->id);
-        return view('/category',$data);
+        $data['category'] = Category::find($request->id);
+
+        return view('/category', $data);
     }
 
     public function update(Request $request)
     {
+        $request->validate([
+            'name' => 'required',
+            'is_publish' => ['required', 'boolean'],
+        ]);
+
         $category = Category::where('id', $request->id)->update([
             'name' => $request->name,
             'is_publish' => $request->is_publish,
         ]);
+
         if ($category) {
-            # code...
-            Session::flash('pesan','Data Berhasil Di Ubah');
+            Session::flash('pesan','Data berhasil diedit');
         }else {
-            Session::flash('pesan','Data Gagal Di Ubah');
+            Session::flash('pesan','Data gagal diedit');
         }
         return redirect('/category');
     }
 
     public function delete(Request $request)
     {
-        Category::where('id',$request->id)->delete();
+        Category::where('id', $request->id)->delete();
         return redirect('/category');
     }
 }

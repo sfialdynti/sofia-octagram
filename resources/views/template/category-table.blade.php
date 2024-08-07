@@ -35,14 +35,6 @@
                         <button type="button" class="btn btn-success mb-1" data-toggle="modal" data-target="#mediumModal">
                             Add Data
                         </button>
-
-                        {{-- <form action="/search" method="post">
-                            @csrf
-                            <div class="input-group">
-                                <input type="search" class="form-control" name="search" placeholder="Search...">
-                                <button class="btn btn-primary input-group-text">Search</button>
-                              </div>
-                        </form> --}}
                         <div class="modal fade" id="mediumModal" tabindex="-1" role="dialog" aria-labelledby="modalinput" aria-hidden="true">
                             <div class="modal-dialog modal-lg" role="document">
                                 <div class="modal-content">
@@ -53,7 +45,7 @@
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <form action="/create" method="post">
+                                        <form action="/category/create" method="post">
                                             @csrf
                                             <div class="mb-3">
                                                 <label for="recipient-name" class="col-form-label">Name</label>
@@ -89,7 +81,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($categori as $key => $item)
+                                @foreach ($category as $key => $item)
                                     <tr>
                                         <td>{{ $key+1 }}</td>
                                         <td>{{ $item->name }}</td>
@@ -110,7 +102,7 @@
                                                             </button>
                                                         </div>
                                                         <div class="modal-body">
-                                                            <form action="/edit/{{ $item->id }}" method="post">
+                                                            <form action="/category/edit/{{ $item->id }}" method="post">
                                                                 @csrf
                                                                 <div class="mb-3">
                                                                     <label for="recipient-name" class="col-form-label">Name</label>
@@ -134,13 +126,10 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <a href="/delete/{{ $item->id }}" class="btn btn-danger">Delete</a>
+                                            <a href="/category/delete/{{ $item->id }}" class="btn btn-danger">Delete</a>
                                         </td>
                                     </tr>
                                 @endforeach
-                                {{-- <div class=" my-5">
-                                    {{ $categori->withQueryString()->links() }}
-                                </div> --}}
                             </tbody>
                         </table>
                     </div>
@@ -155,7 +144,7 @@
             <div class="footer-inner bg-white">
                 <div class="row">
                     <div class="col-sm-6">
-                        Copyright &copy; 2018 Ela Admin
+                        @ Sofia-Octargram
                     </div>
                     <div class="col-sm-6 text-right">
                         Designed by <a href="https://colorlib.com">Colorlib</a>
