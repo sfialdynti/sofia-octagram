@@ -49,7 +49,7 @@
                                             @csrf
                                             <div class="mb-3">
                                                 <label for="recipient-name" class="col-form-label">Name</label>
-                                                <input type="text" name="name" class="form-control" id="recipient-name">
+                                                <input type="text" name="name" class="form-control" id="recipient-name" required>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="email" class="col-form-label">Status</label>
@@ -106,7 +106,7 @@
                                                                 @csrf
                                                                 <div class="mb-3">
                                                                     <label for="recipient-name" class="col-form-label">Name</label>
-                                                                    <input type="text" name="name" class="form-control" value="{{ $item->name }}" id="recipient-name">
+                                                                    <input type="text" name="name" class="form-control" value="{{ $item->name }}" id="recipient-name" required>
                                                                 </div>
                                                                 <div class="mb-3">
                                                                     <div class="mb-3">

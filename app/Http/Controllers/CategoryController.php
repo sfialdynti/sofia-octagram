@@ -59,6 +59,8 @@ class CategoryController extends Controller
         }else {
             Session::flash('pesan','Data gagal diedit');
         }
+        
+        return redirect('/category');
 
     }
 

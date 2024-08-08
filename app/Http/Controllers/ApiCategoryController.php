@@ -85,8 +85,12 @@ class ApiCategoryController extends Controller
 
     public function delete($id)
     {
-        Category::where('id',$id)->delete();
-        return redirect('home');
+        $category = Category::where('id',$id)->delete();
+        return response()->json([
+            'status' => 'Berhasil',
+            'category' => $category
+        ], 200);
+        // return redirect('category');
     }
 
 }
