@@ -126,7 +126,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <a href="/category/delete/{{ $item->id }}" class="btn btn-danger">Delete</a>
+                                            <a href="/category/delete/{{ $item->id }}" class="btn btn-danger" onclick="return window.confirm('Yakin hapus user ini?')" class="btn btn-danger" >Delete</a>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -145,9 +145,6 @@
                 <div class="row">
                     <div class="col-sm-6">
                         @ Sofia-Octargram
-                    </div>
-                    <div class="col-sm-6 text-right">
-                        Designed by <a href="https://colorlib.com">Colorlib</a>
                     </div>
                 </div>
             </div>

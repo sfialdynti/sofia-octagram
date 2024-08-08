@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\Notification;
+use App\Jobs\SendNotificationEmailJob;
+use App\Mail\NotificationEmail;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
 class CategoryController extends Controller
@@ -22,21 +26,17 @@ class CategoryController extends Controller
     
     public function create(Request $request)
     {
-        $request->validate([
-            'name' => 'required',
-            'is_publish' => ['required', 'boolean']
-        ]);
-
-        $validasi = Category::create([
+        $validator = Category::create([
             'name' => $request->name,
             'is_publish' => $request->is_publish,
         ]);
 
-        if ($validasi) {
+        if ($validator) {
             Session::flash('pesan','Data berhasil ditambahkan');
         }else {
             Session::flash('pesan','Data gagal ditambahkan');
         }
+        SendNotificationEmailJob::dispatch($validator);
         return redirect('/category');
     }
 
@@ -49,11 +49,6 @@ class CategoryController extends Controller
 
     public function update(Request $request)
     {
-        $request->validate([
-            'name' => 'required',
-            'is_publish' => ['required', 'boolean'],
-        ]);
-
         $category = Category::where('id', $request->id)->update([
             'name' => $request->name,
             'is_publish' => $request->is_publish,
@@ -64,7 +59,7 @@ class CategoryController extends Controller
         }else {
             Session::flash('pesan','Data gagal diedit');
         }
-        return redirect('/category');
+
     }
 
     public function delete(Request $request)

@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\Notification;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class ApiCategoryController extends Controller
@@ -32,7 +34,6 @@ class ApiCategoryController extends Controller
             'category' => $category
         ], 200);
 
-        // return redirect('home');
     }
 
     public function get(Request $request)
@@ -49,9 +50,7 @@ class ApiCategoryController extends Controller
             'categories' => $data['category']
         ], 200);
 
-        // return view('home',$data);
     }
-
     public function edit(Request $request)
     {
         $data['category'] = Category::find($request->id);
@@ -76,10 +75,12 @@ class ApiCategoryController extends Controller
             'name' => $request->name,
             'is_publish' => $request->is_publish,
         ]);
+
         return response()->json([
             'status' => 'Berhasil',
             'category' => $category
         ], 200);
+       
     }
 
     public function delete($id)

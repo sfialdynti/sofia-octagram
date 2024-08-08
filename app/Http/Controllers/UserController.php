@@ -61,7 +61,6 @@ class UserController extends Controller
             Session::flash('pesan','Data gagal diedit');
         }
 
-
         return redirect('/user');
     }
 

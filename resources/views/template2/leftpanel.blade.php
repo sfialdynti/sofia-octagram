@@ -12,7 +12,7 @@
                 
                 <li class="menu-title">Extras</li>
                 <li>
-                    <a href="/logout"><i class="menu-icon fa fa-user"></i>Profile</a>
+                    <a href=""><i class="menu-icon fa fa-user"></i>Profile</a>
                     <a href="/logout"><i class="menu-icon fa fa-power-off"></i>Logout</a>
                 </li>
             </ul>
